@@ -1,0 +1,28 @@
+name: Daily FEMA Disaster Alert
+
+on:
+  schedule:
+    - cron: '0 13 * * *' # Runs daily at 7:00 AM CST / 8:00 AM CDT
+  workflow_dispatch:       # Lets you trigger a test run manually anytime
+
+jobs:
+  run-alert:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: pip install requests
+
+      - name: Run FEMA alert script
+        env:
+          GMAIL_USER: ${{ secrets.GMAIL_USER }}
+          GMAIL_APP_PASSWORD: ${{ secrets.GMAIL_APP_PASSWORD }}
+          ALERT_RECIPIENT: ${{ secrets.ALERT_RECIPIENT }}
+        run: python fema_alert.py
