@@ -1,9 +1,9 @@
 name: Daily FEMA Disaster Alert
 
 on:
+  workflow_dispatch:
   schedule:
-    - cron: '0 13 * * *' # Runs daily at 7:00 AM CST / 8:00 AM CDT
-  workflow_dispatch:       # Lets you trigger a test run manually anytime
+    - cron: "0 13 * * *"
 
 jobs:
   run-alert:
@@ -15,7 +15,7 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
-          python-version: '3.11'
+          python-version: "3.12"
 
       - name: Install dependencies
         run: pip install requests
